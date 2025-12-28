@@ -1,4 +1,4 @@
-TriageFLOW – Smart Emergency Triage & Hospital Coordination System
+🏥 TriageFLOW – Smart Emergency Triage & Hospital Coordination System
 
 TriageFLOW is a smart web-based emergency triage system designed to assist ambulance crews and hospitals in making faster, data-driven decisions during medical emergencies.
 
@@ -61,6 +61,10 @@ Real-time updates using WebSockets
 AI/ML-based triage prediction models
 
 Integration with GPS and maps
+
+🔗 Live Demo
+
+🌐 Website: https://triageflow-system.netlify.app
 
 ⚠️ Disclaimer
 

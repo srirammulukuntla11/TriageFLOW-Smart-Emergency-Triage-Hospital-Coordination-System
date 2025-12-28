@@ -1,48 +1,64 @@
 🏥 TriageFLOW – Smart Emergency Triage & Hospital Coordination System
 
-TriageFLOW is a smart web-based emergency triage system designed to assist ambulance crews and hospitals in making faster, data-driven decisions during medical emergencies.
+TriageFLOW is a smart, web-based emergency triage system designed to assist ambulance crews and hospitals in making faster, data-driven decisions during medical emergencies.
 
 The system evaluates patient vital signs, determines priority levels, and recommends suitable hospitals while providing hospitals with a real-time dashboard to monitor incoming patients.
 
- Key Features
-
 🚑 Ambulance Crew Module
-- Enter patient vital signs (heart rate, BP, SpO₂, temperature, GCS, etc.)
-- Automatic patient priority classification (High / Medium / Low)
-- Smart hospital matching based on patient condition and hospital capabilities
-- Estimated Time of Arrival (ETA) submission
-- Real-time patient assignment to hospitals
+
+Enter patient vital signs (Heart Rate, Blood Pressure, SpO₂, Temperature, GCS, etc.)
+
+Automatic patient priority classification (High / Medium / Low)
+
+Smart hospital matching based on patient condition and hospital capabilities
+
+Estimated Time of Arrival (ETA) submission
+
+Real-time patient assignment to hospitals
 
 🏥 Hospital Dashboard Module
-- View incoming and existing patients in real time
-- Priority-based patient filtering
-- Search patients by symptoms or complaint
-- View detailed patient vitals and status
-- Track ambulance ETA and admit patients
+
+View incoming and existing patients in real time
+
+Priority-based patient filtering
+
+Search patients by symptoms or complaints
+
+View detailed patient vitals and status
+
+Track ambulance ETA and admit patients
 
 ⚙️ Technology Stack
 
-- HTML5 – Structure and layout
-- CSS3 – Styling and responsive design
-- JavaScript (Vanilla JS) – Application logic and interactivity
-- LocalStorage – Temporary data persistence (frontend prototype)
+HTML5 – Structure and layout
+
+CSS3 – Styling and responsive design
+
+JavaScript (Vanilla JS) – Application logic and interactivity
+
+LocalStorage – Temporary data persistence (frontend prototype)
 
 📌 Project Objectives
 
-- Reduce emergency response time
-- Improve patient prioritization accuracy
-- Streamline ambulance-to-hospital communication
-- Provide a centralized triage and monitoring platform
+Reduce emergency response time
 
- 🚀 How to Run the Project
+Improve patient prioritization accuracy
 
-1. Clone the repository
-2. Open index.html in your browser
-3. No backend or server setup required
+Streamline ambulance-to-hospital communication
 
-🧠 Use Case
+Provide a centralized triage and monitoring platform
 
-Emergency medical services (EMS)
+🚀 How to Run the Project
+
+Clone the repository
+
+Open index.html in your browser
+
+No backend or server setup required
+
+🧠 Use Cases
+
+Emergency Medical Services (EMS)
 
 Hospitals and trauma centers
 
@@ -68,4 +84,4 @@ Integration with GPS and maps
 
 ⚠️ Disclaimer
 
-This project is a prototype developed for academic and demonstration purposes only and should not be used in real medical emergencies.
+This project is a prototype developed for academic and demonstration purposes only and must not be used in real medical emergencies.

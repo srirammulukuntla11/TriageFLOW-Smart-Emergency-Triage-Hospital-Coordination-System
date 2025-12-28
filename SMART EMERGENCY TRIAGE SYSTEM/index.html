@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TriageFLOW Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 30px;
+        }
+        
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+        }
+        
+        .role-section {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .role-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-top: 4px solid #3498db;
+        }
+        
+        .role-card.hospital {
+            border-top-color: #2ecc71;
+        }
+        
+        .role-card h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        
+        .role-card p {
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn.hospital {
+            background-color: #2ecc71;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn.hospital:hover {
+            background-color: #27ae60;
+        }
+        
+        .section {
+            display: none;
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        .back-btn {
+            background-color: #95a5a6;
+            margin-bottom: 25px;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+        
+        .back-btn:hover {
+            background-color: #7f8c8d;
+        }
+        
+        h2.section-title {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .section-subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-section h3 {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .vital-signs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        input::placeholder {
+            color: #95a5a6;
+            font-style: italic;
+        }
+        
+        .submit-btn {
+            background-color: #3498db;
+            padding: 12px 30px;
+            font-size: 16px;
+            margin-top: 10px;
+            width: 100%;
+        }
+        
+        .hospital-results {
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .hospital-card {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        
+        .hospital-info h3 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .hospital-info p {
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+        
+        .match-score {
+            background-color: #2ecc71;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-right: 40px;
+        }
+        
+        .hospital-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .feature-tag {
+            background-color: #ebf5fb;
+            color: #3498db;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+        
+        .priority-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .priority-high {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .priority-medium {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .priority-low {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        /* Hospital Dashboard Styles - UPDATED */
+        .dashboard-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .control-group label {
+            margin-bottom: 0;
+            white-space: nowrap;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+        
+        .control-group select,
+        .control-group input {
+            flex: 1;
+            min-width: 150px;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+        
+        /* Hospital selector specific styles */
+        .control-group.hospital-selector {
+            justify-content: flex-end;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .view-btn {
+            background-color: #3498db;
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+        
+        .patient-details {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .patient-details h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .vitals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .vital-item {
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .vital-item strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        /* Hospital Selection Styles */
+        .hospital-radio {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .hospital-radio input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .hospital-selection-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        
+        .incoming-patients-grid {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .incoming-patient-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            transition: all 0.3s;
+        }
+        
+        .incoming-patient-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .confirmation-message {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .role-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .vital-signs-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hospital-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+                padding-right: 50px;
+            }
+            
+            .hospital-radio {
+                right: 15px;
+                top: 20px;
+                transform: none;
+            }
+            
+            .dashboard-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .control-group {
+                width: 100%;
+                min-width: 100%;
+            }
+            
+            .control-group.hospital-selector {
+                justify-content: flex-start;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TriageFLOW Portal</h1>
+            <p class="subtitle">Select your role to get started</p>
+        </header>
+        
+        <main>
+            <!-- Role Selection Section -->
+            <section id="role-selection" class="active">
+                <div class="role-section">
+                    <div class="role-card">
+                        <h2>Ambulance Crew</h2>
+                        <p>Submit patient vital signs to find matching hospitals.</p>
+                        <button class="btn" id="ambulance-btn">Enter Patient Data</button>
+                    </div>
+                    
+                    <div class="role-card hospital">
+                        <h2>Hospital Dashboard</h2>
+                        <p>View patient priority and history.</p>
+                        <button class="btn hospital" id="hospital-btn">View Dashboard</button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Ambulance Crew Section -->
+            <section id="ambulance-section" class="section">
+                <button class="btn back-btn" id="ambulance-back">Back to Role Selection</button>
+                <h2 class="section-title">Patient Vital Signs Assessment</h2>
+                <p class="section-subtitle">Enter patient vital signs to find appropriate hospitals</p>
+                
+                <form id="patient-form">
+                    <div class="form-section">
+                        <h3>Vital Signs</h3>
+                        
+                        <div class="vital-signs-grid">
+                            <div class="form-group">
+                                <label for="heart-rate">Heart Rate (bpm)</label>
+                                <input type="number" id="heart-rate" min="30" max="200" required 
+                                       placeholder="e.g., 72 (normal range: 60-100)">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="blood-pressure-systolic">Systolic BP (mmHg)</label>
+                                <input type="number" id="blood-pressure-systolic" min="60" max="250" required 
+                                       placeholder="e.g., 120 (normal: <120)">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="blood-pressure-diastolic">Diastolic BP (mmHg)</label>
+                                <input type="number" id="blood-pressure-diastolic" min="40" max="150" required 
+                                       placeholder="e.g., 80 (normal: <80)">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="respiratory-rate">Respiratory Rate (breaths/min)</label>
+                                <input type="number" id="respiratory-rate" min="5" max="60" required 
+                                       placeholder="e.g., 16 (normal: 12-20)">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="oxygen-saturation">Oxygen Saturation (%)</label>
+                                <input type="number" id="oxygen-saturation" min="0" max="100" required 
+                                       placeholder="e.g., 98 (normal: ≥95%)">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="temperature">Temperature (°C)</label>
+                                <input type="number" id="temperature" step="0.1" min="30" max="45" required 
+                                       placeholder="e.g., 37.0 (normal: 36.5-37.5)">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="gcs">Glasgow Coma Scale (GCS)</label>
+                                <input type="number" id="gcs" min="3" max="15" required 
+                                       placeholder="e.g., 15 (normal: 15)">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="blood-glucose">Blood Glucose (mg/dL)</label>
+                                <input type="number" id="blood-glucose" min="20" max="800" required 
+                                       placeholder="e.g., 100 (normal: 70-140)">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Additional Information</h3>
+                        
+                        <div class="form-group">
+                            <label for="chief-complaint">Chief Complaint</label>
+                            <input type="text" id="chief-complaint" placeholder="e.g., Chest pain radiating to left arm" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="symptoms">Observed Symptoms</label>
+                            <input type="text" id="symptoms" placeholder="e.g., Shortness of breath, sweating, nausea">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn submit-btn">Submit Patient Data</button>
+                </form>
+                
+                <div id="hospital-results" class="hospital-results">
+                    <h3>Recommended Hospitals</h3>
+                    <div id="hospital-list">
+                        <!-- Hospital results will be displayed here with radio buttons -->
+                    </div>
+                    
+                    <!-- Hospital Selection Section -->
+                    <div id="hospital-selection" class="hospital-selection-section" style="display: none;">
+                        <h3>Complete Assignment</h3>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label for="ambulance-crew">Ambulance Crew ID:</label>
+                            <input type="text" id="ambulance-crew" placeholder="e.g., AMB-001" style="width: 100%;">
+                        </div>
+                        <div class="form-group">
+                            <label for="eta">Estimated Time of Arrival (minutes):</label>
+                            <input type="number" id="eta" min="5" max="120" value="15" placeholder="e.g., 15" style="width: 100%;">
+                        </div>
+                        <button class="btn" id="send-to-hospital" style="margin-top: 20px; width: 100%; background-color: #27ae60;">
+                            Send Patient to Selected Hospital
+                        </button>
+                    </div>
+                    
+                    <div id="confirmation-message" class="confirmation-message">
+                        <!-- Confirmation message will appear here -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Hospital Dashboard Section -->
+            <section id="hospital-section" class="section">
+                <button class="btn back-btn" id="hospital-back">Back to Role Selection</button>
+                <h2 class="section-title">Hospital Triage Dashboard</h2>
+                <p class="section-subtitle">View patient priority and history</p>
+                
+                <!-- UPDATED Dashboard Controls - All in one line -->
+                <div class="dashboard-controls">
+                    <div class="control-group">
+                        <label for="priority-filter">Filter by Priority:</label>
+                        <select id="priority-filter">
+                            <option value="all">All Priorities</option>
+                            <option value="high">High Priority</option>
+                            <option value="medium">Medium Priority</option>
+                            <option value="low">Low Priority</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="search-patient">Search Patient:</label>
+                        <input type="text" id="search-patient" placeholder="Enter chief complaint or patient ID">
+                    </div>
+                    
+                    <div class="control-group hospital-selector">
+                        <label for="hospital-filter">View as Hospital:</label>
+                        <select id="hospital-filter">
+                            <option value="1">City General Hospital</option>
+                            <option value="2">University Medical Center</option>
+                            <option value="3">Children's Hospital</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <table id="patient-table">
+                    <thead>
+                        <tr>
+                            <th>Priority</th>
+                            <th>Arrival Time</th>
+                            <th>Chief Complaint</th>
+                            <th>Heart Rate</th>
+                            <th>BP</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="patient-list">
+                        <!-- Patient data will be populated here -->
+                    </tbody>
+                </table>
+                
+                <div id="patient-details" class="patient-details">
+                    <!-- Patient details will be displayed here -->
+                </div>
+                
+                <!-- Incoming Patients Section -->
+                <div class="form-section" style="margin-top: 40px;">
+                    <h3>Incoming Patients</h3>
+                    <p class="section-subtitle">Patients assigned to your hospital</p>
+                    <div id="incoming-patients">
+                        <!-- Incoming patients will be displayed here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>Emergency Triage Portal &copy; 2023 | For authorized medical personnel only</p>
+        </footer>
+    </div>
+
+    <script>
+        // Hospital database with specialties and capabilities
+        const hospitals = [
+            {
+                id: 1,
+                name: "City General Hospital",
+                distance: "2.3 miles",
+                waitTime: "15 min",
+                specialties: ["cardiac", "respiratory", "general"],
+                capabilities: ["icu", "surgery", "cardiology", "emergency"],
+                bedAvailability: "High",
+                matchScore: 0
+            },
+            {
+                id: 2,
+                name: "University Medical Center",
+                distance: "4.1 miles",
+                waitTime: "25 min",
+                specialties: ["stroke", "neurology", "trauma", "toxicology"],
+                capabilities: ["icu", "surgery", "neuro", "trauma-center", "stroke-center"],
+                bedAvailability: "Medium",
+                matchScore: 0
+            },
+            {
+                id: 3,
+                name: "Children's Hospital",
+                distance: "3.7 miles",
+                waitTime: "10 min",
+                specialties: ["pediatric", "respiratory", "neonatal"],
+                capabilities: ["pediatric-unit", "icu", "neonatal-icu"],
+                bedAvailability: "High",
+                matchScore: 0
+            }
+        ];
+
+        // Patient data storage
+        let patients = JSON.parse(localStorage.getItem('triagePatients')) || [
+            // Sample data for demonstration
+            {
+                id: generatePatientId(),
+                heartRate: 110,
+                systolicBP: 150,
+                diastolicBP: 95,
+                respiratoryRate: 22,
+                oxygenSaturation: 92,
+                temperature: 38.5,
+                gcs: 14,
+                bloodGlucose: 120,
+                chiefComplaint: "Chest pain radiating to left arm",
+                symptoms: "Shortness of breath, sweating",
+                arrivalTime: new Date().toLocaleString(),
+                priority: "high"
+            },
+            {
+                id: generatePatientId(),
+                heartRate: 85,
+                systolicBP: 118,
+                diastolicBP: 78,
+                respiratoryRate: 16,
+                oxygenSaturation: 98,
+                temperature: 37.2,
+                gcs: 15,
+                bloodGlucose: 95,
+                chiefComplaint: "Fever and cough",
+                symptoms: "Body aches for 3 days",
+                arrivalTime: new Date(Date.now() - 30 * 60 * 1000).toLocaleString(), // 30 minutes ago
+                priority: "medium"
+            },
+            {
+                id: generatePatientId(),
+                heartRate: 72,
+                systolicBP: 130,
+                diastolicBP: 85,
+                respiratoryRate: 18,
+                oxygenSaturation: 96,
+                temperature: 36.8,
+                gcs: 15,
+                bloodGlucose: 110,
+                chiefComplaint: "Laceration on forearm",
+                symptoms: "Fall from ladder",
+                arrivalTime: new Date(Date.now() - 60 * 60 * 1000).toLocaleString(), // 1 hour ago
+                priority: "low"
+            }
+        ];
+
+        // Current hospital view (default to first hospital)
+        let currentHospitalId = 1;
+
+        // DOM elements
+        const roleSelection = document.getElementById('role-selection');
+        const ambulanceSection = document.getElementById('ambulance-section');
+        const hospitalSection = document.getElementById('hospital-section');
+        const ambulanceBtn = document.getElementById('ambulance-btn');
+        const hospitalBtn = document.getElementById('hospital-btn');
+        const ambulanceBack = document.getElementById('ambulance-back');
+        const hospitalBack = document.getElementById('hospital-back');
+        const patientForm = document.getElementById('patient-form');
+        const hospitalResults = document.getElementById('hospital-results');
+        const hospitalList = document.getElementById('hospital-list');
+        const hospitalSelection = document.getElementById('hospital-selection');
+        const sendToHospitalBtn = document.getElementById('send-to-hospital');
+        const confirmationMessage = document.getElementById('confirmation-message');
+        const ambulanceCrewInput = document.getElementById('ambulance-crew');
+        const etaInput = document.getElementById('eta');
+        const patientList = document.getElementById('patient-list');
+        const priorityFilter = document.getElementById('priority-filter');
+        const searchPatient = document.getElementById('search-patient');
+        const hospitalFilter = document.getElementById('hospital-filter');
+        const patientDetails = document.getElementById('patient-details');
+        const incomingPatientsDiv = document.getElementById('incoming-patients');
+
+        // Event listeners for role selection
+        ambulanceBtn.addEventListener('click', () => {
+            roleSelection.classList.remove('active');
+            ambulanceSection.classList.add('active');
+            hospitalSection.classList.remove('active');
+            hospitalResults.style.display = 'none';
+            hospitalSelection.style.display = 'none';
+            confirmationMessage.style.display = 'none';
+        });
+
+        hospitalBtn.addEventListener('click', () => {
+            roleSelection.classList.remove('active');
+            hospitalSection.classList.add('active');
+            ambulanceSection.classList.remove('active');
+            renderPatientTable();
+            displayIncomingPatients();
+        });
+
+        // Back buttons
+        ambulanceBack.addEventListener('click', () => {
+            ambulanceSection.classList.remove('active');
+            hospitalSection.classList.remove('active');
+            roleSelection.classList.add('active');
+            resetForm();
+        });
+
+        hospitalBack.addEventListener('click', () => {
+            ambulanceSection.classList.remove('active');
+            hospitalSection.classList.remove('active');
+            roleSelection.classList.add('active');
+            patientDetails.style.display = 'none';
+        });
+
+        // Form submission
+        patientForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Get vital signs values
+            const vitalSigns = {
+                id: generatePatientId(),
+                heartRate: parseInt(document.getElementById('heart-rate').value),
+                systolicBP: parseInt(document.getElementById('blood-pressure-systolic').value),
+                diastolicBP: parseInt(document.getElementById('blood-pressure-diastolic').value),
+                respiratoryRate: parseInt(document.getElementById('respiratory-rate').value),
+                oxygenSaturation: parseInt(document.getElementById('oxygen-saturation').value),
+                temperature: parseFloat(document.getElementById('temperature').value),
+                gcs: parseInt(document.getElementById('gcs').value),
+                bloodGlucose: parseInt(document.getElementById('blood-glucose').value),
+                chiefComplaint: document.getElementById('chief-complaint').value,
+                symptoms: document.getElementById('symptoms').value,
+                arrivalTime: new Date().toLocaleString()
+            };
+            
+            // Calculate patient priority based on vital signs
+            vitalSigns.priority = calculatePriority(vitalSigns);
+            
+            // Add to patients array
+            patients.push(vitalSigns);
+            
+            // Save to localStorage
+            savePatientData();
+            
+            // Determine required hospital capabilities based on vital signs and symptoms
+            const requiredCapabilities = determineRequiredCapabilities(vitalSigns);
+            
+            // Find matching hospitals
+            const matchingHospitals = findMatchingHospitals(requiredCapabilities, vitalSigns.priority);
+            
+            // Display results with radio buttons
+            displayHospitalResults(matchingHospitals, vitalSigns.priority);
+            
+            // Show results section
+            hospitalResults.style.display = 'block';
+            
+            // Scroll to results
+            hospitalResults.scrollIntoView({ behavior: 'smooth' });
+            
+            // Reset form
+            patientForm.reset();
+        });
+
+        // Send to hospital button event listener
+        sendToHospitalBtn.addEventListener('click', () => {
+            const selectedHospital = document.querySelector('input[name="selected-hospital"]:checked');
+            const crewId = ambulanceCrewInput.value.trim();
+            
+            if (!selectedHospital) {
+                alert('Please select a hospital by clicking the radio button next to your choice');
+                return;
+            }
+            
+            if (!crewId) {
+                alert('Please enter your ambulance crew ID');
+                return;
+            }
+            
+            // Get the current patient (most recent one)
+            const currentPatient = patients[patients.length - 1];
+            
+            // Create hospital notification
+            const notification = {
+                patientId: currentPatient.id,
+                patientData: currentPatient,
+                selectedHospitalId: parseInt(selectedHospital.value),
+                selectedHospitalName: selectedHospital.getAttribute('data-name'),
+                ambulanceCrewId: crewId,
+                eta: parseInt(etaInput.value) || 15,
+                timestamp: new Date().toISOString(),
+                status: 'en-route'
+            };
+            
+            // Save notification to localStorage
+            saveHospitalNotification(notification);
+            
+            // Show confirmation
+            showConfirmation(notification);
+        });
+
+        // Hospital filter change event
+        hospitalFilter.addEventListener('change', (e) => {
+            currentHospitalId = parseInt(e.target.value);
+            displayIncomingPatients();
+        });
+
+        // Generate unique patient ID
+        function generatePatientId() {
+            return 'P' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        }
+
+        // Save patient data to localStorage
+        function savePatientData() {
+            localStorage.setItem('triagePatients', JSON.stringify(patients));
+        }
+
+        // Save hospital notification to localStorage
+        function saveHospitalNotification(notification) {
+            let notifications = JSON.parse(localStorage.getItem('hospitalNotifications')) || [];
+            notifications.push(notification);
+            localStorage.setItem('hospitalNotifications', JSON.stringify(notifications));
+        }
+
+        // Calculate patient priority based on vital signs
+        function calculatePriority(vitalSigns) {
+            let score = 0;
+            
+            // Heart rate scoring
+            if (vitalSigns.heartRate < 50 || vitalSigns.heartRate > 120) score += 2;
+            else if (vitalSigns.heartRate < 60 || vitalSigns.heartRate > 100) score += 1;
+            
+            // Blood pressure scoring
+            if (vitalSigns.systolicBP < 90 || vitalSigns.systolicBP > 180) score += 2;
+            else if (vitalSigns.systolicBP < 100 || vitalSigns.systolicBP > 160) score += 1;
+            
+            if (vitalSigns.diastolicBP < 60 || vitalSigns.diastolicBP > 110) score += 2;
+            else if (vitalSigns.diastolicBP < 70 || vitalSigns.diastolicBP > 100) score += 1;
+            
+            // Respiratory rate scoring
+            if (vitalSigns.respiratoryRate < 12 || vitalSigns.respiratoryRate > 24) score += 2;
+            else if (vitalSigns.respiratoryRate < 14 || vitalSigns.respiratoryRate > 20) score += 1;
+            
+            // Oxygen saturation scoring
+            if (vitalSigns.oxygenSaturation < 92) score += 3;
+            else if (vitalSigns.oxygenSaturation < 95) score += 1;
+            
+            // GCS scoring
+            if (vitalSigns.gcs < 9) score += 3;
+            else if (vitalSigns.gcs < 13) score += 2;
+            else if (vitalSigns.gcs < 15) score += 1;
+            
+            // Blood glucose scoring
+            if (vitalSigns.bloodGlucose < 70 || vitalSigns.bloodGlucose > 180) score += 1;
+            if (vitalSigns.bloodGlucose < 50 || vitalSigns.bloodGlucose > 250) score += 2;
+            
+            // Determine priority based on total score
+            if (score >= 8) return 'high';
+            if (score >= 5) return 'medium';
+            return 'low';
+        }
+
+        // Determine required hospital capabilities based on vital signs and symptoms
+        function determineRequiredCapabilities(vitalSigns) {
+            const capabilities = [];
+            
+            // Based on vital signs abnormalities
+            if (vitalSigns.heartRate < 50 || vitalSigns.heartRate > 120 || 
+                vitalSigns.systolicBP < 90 || vitalSigns.systolicBP > 180) {
+                capabilities.push('cardiology');
+            }
+            
+            if (vitalSigns.respiratoryRate < 12 || vitalSigns.respiratoryRate > 24 || 
+                vitalSigns.oxygenSaturation < 92) {
+                capabilities.push('respiratory-care');
+            }
+            
+            if (vitalSigns.gcs < 13) {
+                capabilities.push('neurology');
+            }
+            
+            if (vitalSigns.bloodGlucose < 50 || vitalSigns.bloodGlucose > 250) {
+                capabilities.push('endocrine');
+            }
+            
+            // Based on symptoms mentioned
+            if (vitalSigns.symptoms) {
+                const symptoms = vitalSigns.symptoms.toLowerCase();
+                
+                if (symptoms.includes('chest pain') || symptoms.includes('heart')) {
+                    capabilities.push('cardiology', 'cardiac-surgery');
+                }
+                
+                if (symptoms.includes('stroke') || symptoms.includes('paralysis') || 
+                    symptoms.includes('numbness')) {
+                    capabilities.push('neurology', 'stroke-center');
+                }
+                
+                if (symptoms.includes('trauma') || symptoms.includes('accident') || 
+                    symptoms.includes('fracture')) {
+                    capabilities.push('trauma-center', 'orthopedic-surgery');
+                }
+            }
+            
+            // Always include emergency capability
+            capabilities.push('emergency');
+            
+            return [...new Set(capabilities)]; // Remove duplicates
+        }
+
+        // Find hospitals that match patient requirements
+        function findMatchingHospitals(requiredCapabilities, priority) {
+            // Reset match scores
+            hospitals.forEach(hospital => hospital.matchScore = 0);
+            
+            // Calculate match scores for each hospital
+            hospitals.forEach(hospital => {
+                // Score based on matching capabilities
+                requiredCapabilities.forEach(capability => {
+                    if (hospital.capabilities.includes(capability)) {
+                        hospital.matchScore += 3; // High score for matching capability
+                    }
+                });
+                
+                // Adjust score based on priority and bed availability
+                if (priority === 'high') {
+                    if (hospital.bedAvailability === 'High') hospital.matchScore += 5;
+                    else if (hospital.bedAvailability === 'Medium') hospital.matchScore += 3;
+                    else hospital.matchScore += 1;
+                } else if (priority === 'medium') {
+                    if (hospital.bedAvailability === 'High') hospital.matchScore += 3;
+                    else if (hospital.bedAvailability === 'Medium') hospital.matchScore += 2;
+                } else {
+                    if (hospital.bedAvailability === 'High') hospital.matchScore += 2;
+                }
+                
+                // Bonus for hospitals with ICU capability for high priority patients
+                if (priority === 'high' && hospital.capabilities.includes('icu')) {
+                    hospital.matchScore += 3;
+                }
+            });
+            
+            // Filter hospitals with at least some match
+            const matchingHospitals = hospitals.filter(h => h.matchScore > 0);
+            
+            // Sort by match score (descending) and distance (ascending)
+            matchingHospitals.sort((a, b) => {
+                if (b.matchScore !== a.matchScore) {
+                    return b.matchScore - a.matchScore;
+                }
+                // If scores are equal, sort by distance (convert to number for comparison)
+                return parseFloat(a.distance) - parseFloat(b.distance);
+            });
+            
+            return matchingHospitals;
+        }
+
+        // Display hospital results with radio buttons
+        function displayHospitalResults(hospitals, priority) {
+            hospitalList.innerHTML = '';
+            hospitalSelection.style.display = 'none';
+            confirmationMessage.style.display = 'none';
+            
+            if (hospitals.length === 0) {
+                hospitalList.innerHTML = `
+                    <div class="no-results">
+                        <p>No hospitals match the patient's requirements.</p>
+                        <p>Please try the nearest general hospital: City General Hospital (2.3 miles)</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Display priority badge
+            const priorityText = document.createElement('p');
+            priorityText.innerHTML = `Patient Priority: <span class="priority-badge priority-${priority}">${priority.toUpperCase()} PRIORITY</span>`;
+            priorityText.style.marginBottom = '20px';
+            priorityText.style.fontSize = '16px';
+            hospitalList.appendChild(priorityText);
+            
+            // Instruction
+            const instruction = document.createElement('p');
+            instruction.innerHTML = '<strong>Select one hospital by clicking the radio button:</strong>';
+            instruction.style.marginBottom = '15px';
+            instruction.style.color = '#2c3e50';
+            hospitalList.appendChild(instruction);
+            
+            hospitals.forEach((hospital, index) => {
+                const hospitalCard = document.createElement('div');
+                hospitalCard.className = 'hospital-card';
+                
+                // Calculate match percentage (for display purposes)
+                const maxPossibleScore = 30; // Approximate maximum score
+                const matchPercentage = Math.min(Math.round((hospital.matchScore / maxPossibleScore) * 100), 100);
+                
+                hospitalCard.innerHTML = `
+                    <div class="hospital-info">
+                        <h3>${hospital.name}</h3>
+                        <p>Distance: ${hospital.distance} • Wait time: ${hospital.waitTime} • Beds: ${hospital.bedAvailability}</p>
+                        <div class="hospital-features">
+                            ${hospital.capabilities.map(capability => 
+                                `<span class="feature-tag">${formatCapability(capability)}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    <div class="hospital-match">
+                        <span class="match-score">${matchPercentage}% Match</span>
+                    </div>
+                    <div class="hospital-radio">
+                        <input type="radio" name="selected-hospital" 
+                               value="${hospital.id}" 
+                               data-name="${hospital.name}"
+                               id="hospital-${hospital.id}"
+                               ${index === 0 ? 'checked' : ''}>
+                    </div>
+                `;
+                
+                // Add click event to the entire card
+                hospitalCard.addEventListener('click', (e) => {
+                    if (e.target.type !== 'radio') {
+                        const radio = hospitalCard.querySelector('input[type="radio"]');
+                        radio.checked = true;
+                    }
+                });
+                
+                hospitalList.appendChild(hospitalCard);
+            });
+            
+            // Show selection section
+            hospitalSelection.style.display = 'block';
+        }
+
+        // Show confirmation message
+        function showConfirmation(notification) {
+            hospitalSelection.style.display = 'none';
+            confirmationMessage.style.display = 'block';
+            confirmationMessage.innerHTML = `
+                <h4 style="color: #155724; margin-bottom: 10px;">✓ Patient Successfully Assigned!</h4>
+                <p><strong>Patient ID:</strong> ${notification.patientData.id}</p>
+                <p><strong>Destination:</strong> ${notification.selectedHospitalName}</p>
+                <p><strong>ETA:</strong> ${notification.eta} minutes</p>
+                <p><strong>Ambulance Crew:</strong> ${notification.ambulanceCrewId}</p>
+                <p><strong>Status:</strong> En route</p>
+                <p style="margin-top: 10px; font-size: 14px;">The patient details have been sent to the selected hospital.</p>
+                <button class="btn" id="new-patient-btn" style="margin-top: 15px; background-color: #3498db;">
+                    Enter New Patient Data
+                </button>
+            `;
+            
+            // Add event listener for new patient button
+            document.getElementById('new-patient-btn').addEventListener('click', () => {
+                confirmationMessage.style.display = 'none';
+                hospitalResults.style.display = 'none';
+                resetForm();
+            });
+        }
+
+        // Format capability for display
+        function formatCapability(capability) {
+            const capabilityMap = {
+                'icu': 'ICU',
+                'surgery': 'Surgery',
+                'cardiology': 'Cardiology',
+                'emergency': 'Emergency',
+                'neuro': 'Neurology',
+                'trauma-center': 'Trauma Center',
+                'stroke-center': 'Stroke Center',
+                'pediatric-unit': 'Pediatrics',
+                'burn-unit': 'Burn Care',
+                'orthopedic-surgery': 'Orthopedics',
+                'cardiac-surgery': 'Cardiac Surgery',
+                'neonatal-icu': 'NICU',
+                'respiratory-care': 'Respiratory Care',
+                'endocrine': 'Endocrine'
+            };
+            
+            return capabilityMap[capability] || capability;
+        }
+
+        // Display incoming patients for hospital
+        function displayIncomingPatients() {
+            if (!incomingPatientsDiv) return;
+            
+            const notifications = JSON.parse(localStorage.getItem('hospitalNotifications')) || [];
+            
+            if (notifications.length === 0) {
+                incomingPatientsDiv.innerHTML = '<p style="color: #7f8c8d; text-align: center;">No incoming patients</p>';
+                return;
+            }
+            
+            // Filter notifications for the current hospital
+            const hospitalNotifications = notifications.filter(n => n.selectedHospitalId === currentHospitalId);
+            
+            if (hospitalNotifications.length === 0) {
+                incomingPatientsDiv.innerHTML = `<p style="color: #7f8c8d; text-align: center;">No incoming patients assigned to ${hospitals.find(h => h.id === currentHospitalId)?.name || 'this hospital'}</p>`;
+                return;
+            }
+            
+            let html = '<div class="incoming-patients-grid">';
+            
+            hospitalNotifications.forEach(notification => {
+                const patient = notification.patientData;
+                const statusColor = notification.status === 'en-route' ? '#3498db' : 
+                                  notification.status === 'arrived' ? '#2ecc71' : '#e74c3c';
+                
+                html += `
+                    <div class="incoming-patient-card">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div>
+                                <h4 style="margin-bottom: 5px;">Patient ${patient.id}</h4>
+                                <p style="color: #7f8c8d; font-size: 14px;">${patient.chiefComplaint}</p>
+                                <div style="display: flex; gap: 10px; margin-top: 10px; font-size: 14px;">
+                                    <span><strong>Priority:</strong> <span class="priority-badge priority-${patient.priority}">${patient.priority.toUpperCase()}</span></span>
+                                    <span><strong>ETA:</strong> ${notification.eta} min</span>
+                                    <span><strong>Crew:</strong> ${notification.ambulanceCrewId}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span style="background-color: ${statusColor}; color: white; padding: 3px 8px; border-radius: 12px; font-size: 12px;">${notification.status.toUpperCase()}</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #eee;">
+                            <button class="btn view-btn" onclick="viewIncomingPatient('${notification.patientId}')" style="padding: 5px 10px; font-size: 12px;">
+                                View Details
+                            </button>
+                            <button class="btn" onclick="admitPatient('${notification.patientId}')" style="padding: 5px 10px; font-size: 12px; background-color: #2ecc71; margin-left: 5px;">
+                                Mark as Arrived
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            incomingPatientsDiv.innerHTML = html;
+        }
+
+        // Function to view incoming patient details
+        window.viewIncomingPatient = function(patientId) {
+            // Find the patient in regular patients array
+            const patient = patients.find(p => p.id === patientId);
+            if (patient) {
+                showPatientDetails(patientId);
+            } else {
+                alert('Patient details not found');
+            }
+        }
+
+        // Function to admit patient (mark as arrived)
+        window.admitPatient = function(patientId) {
+            const notifications = JSON.parse(localStorage.getItem('hospitalNotifications')) || [];
+            const notificationIndex = notifications.findIndex(n => n.patientData.id === patientId);
+            
+            if (notificationIndex !== -1) {
+                notifications[notificationIndex].status = 'arrived';
+                localStorage.setItem('hospitalNotifications', JSON.stringify(notifications));
+                
+                // Refresh display
+                displayIncomingPatients();
+                alert('Patient marked as arrived');
+            }
+        }
+
+        // Render patient table in hospital dashboard
+        function renderPatientTable() {
+            const filterValue = priorityFilter.value;
+            const searchValue = searchPatient.value.toLowerCase();
+            
+            // Filter patients
+            let filteredPatients = patients;
+            
+            if (filterValue !== 'all') {
+                filteredPatients = filteredPatients.filter(patient => patient.priority === filterValue);
+            }
+            
+            if (searchValue) {
+                filteredPatients = filteredPatients.filter(patient => 
+                    patient.chiefComplaint.toLowerCase().includes(searchValue) || 
+                    patient.id.toLowerCase().includes(searchValue) ||
+                    (patient.symptoms && patient.symptoms.toLowerCase().includes(searchValue))
+                );
+            }
+            
+            // Sort by priority (high first) and arrival time (most recent first)
+            filteredPatients.sort((a, b) => {
+                const priorityOrder = { high: 3, medium: 2, low: 1 };
+                if (priorityOrder[b.priority] !== priorityOrder[a.priority]) {
+                    return priorityOrder[b.priority] - priorityOrder[a.priority];
+                }
+                return new Date(b.arrivalTime) - new Date(a.arrivalTime);
+            });
+            
+            // Update table
+            patientList.innerHTML = '';
+            
+            if (filteredPatients.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="6" style="text-align: center; color: #7f8c8d; padding: 30px;">No patients match the current filters</td>`;
+                patientList.appendChild(row);
+                return;
+            }
+            
+            filteredPatients.forEach(patient => {
+                const row = document.createElement('tr');
+                
+                // Priority
+                const priorityCell = document.createElement('td');
+                priorityCell.innerHTML = `<span class="priority-badge priority-${patient.priority}">${patient.priority.toUpperCase()}</span>`;
+                row.appendChild(priorityCell);
+                
+                // Arrival Time
+                const timeCell = document.createElement('td');
+                timeCell.textContent = patient.arrivalTime;
+                row.appendChild(timeCell);
+                
+                // Chief Complaint
+                const complaintCell = document.createElement('td');
+                complaintCell.textContent = patient.chiefComplaint;
+                row.appendChild(complaintCell);
+                
+                // Heart Rate
+                const hrCell = document.createElement('td');
+                hrCell.textContent = patient.heartRate + ' bpm';
+                row.appendChild(hrCell);
+                
+                // Blood Pressure
+                const bpCell = document.createElement('td');
+                bpCell.textContent = patient.systolicBP + '/' + patient.diastolicBP + ' mmHg';
+                row.appendChild(bpCell);
+                
+                // Actions
+                const actionCell = document.createElement('td');
+                const viewBtn = document.createElement('button');
+                viewBtn.className = 'btn view-btn';
+                viewBtn.textContent = 'View Details';
+                viewBtn.addEventListener('click', () => showPatientDetails(patient.id));
+                actionCell.appendChild(viewBtn);
+                row.appendChild(actionCell);
+                
+                patientList.appendChild(row);
+            });
+        }
+
+        // Show patient details
+        function showPatientDetails(patientId) {
+            const patient = patients.find(p => p.id === patientId);
+            
+            if (patient) {
+                patientDetails.innerHTML = `
+                    <h3>Patient Details</h3>
+                    <p><strong>Patient ID:</strong> ${patient.id}</p>
+                    <p><strong>Arrival Time:</strong> ${patient.arrivalTime}</p>
+                    <p><strong>Priority:</strong> <span class="priority-badge priority-${patient.priority}">${patient.priority.toUpperCase()}</span></p>
+                    <p><strong>Chief Complaint:</strong> ${patient.chiefComplaint}</p>
+                    <p><strong>Symptoms:</strong> ${patient.symptoms || 'None specified'}</p>
+                    
+                    <div class="vitals-grid">
+                        <div class="vital-item">
+                            <strong>Heart Rate</strong>
+                            <div>${patient.heartRate} bpm</div>
+                        </div>
+                        <div class="vital-item">
+                            <strong>Blood Pressure</strong>
+                            <div>${patient.systolicBP}/${patient.diastolicBP} mmHg</div>
+                        </div>
+                        <div class="vital-item">
+                            <strong>Respiratory Rate</strong>
+                            <div>${patient.respiratoryRate} breaths/min</div>
+                        </div>
+                        <div class="vital-item">
+                            <strong>Oxygen Saturation</strong>
+                            <div>${patient.oxygenSaturation}%</div>
+                        </div>
+                        <div class="vital-item">
+                            <strong>Temperature</strong>
+                            <div>${patient.temperature}°C</div>
+                        </div>
+                        <div class="vital-item">
+                            <strong>Glasgow Coma Scale</strong>
+                            <div>${patient.gcs}/15</div>
+                        </div>
+                        <div class="vital-item">
+                            <strong>Blood Glucose</strong>
+                            <div>${patient.bloodGlucose} mg/dL</div>
+                        </div>
+                    </div>
+                `;
+                
+                patientDetails.style.display = 'block';
+                
+                // Scroll to details
+                patientDetails.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Reset form
+        function resetForm() {
+            patientForm.reset();
+            hospitalResults.style.display = 'none';
+            hospitalSelection.style.display = 'none';
+            confirmationMessage.style.display = 'none';
+        }
+
+        // Event listeners for hospital dashboard filters
+        priorityFilter.addEventListener('change', renderPatientTable);
+        searchPatient.addEventListener('input', renderPatientTable);
+
+        // Initialize the dashboard if there are patients
+        if (patients.length > 0) {
+            savePatientData();
+        }
+    </script>
+</body>
+</html>
